@@ -1,0 +1,106 @@
+# FloatChat - Ocean Data Query System
+# Docker Compose Configuration for Complete Application Stack
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database with PostGIS Extension
+  floatchat-db:
+    image: postgis/postgis:15-3.3
+    container_name: floatchat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: floatchat_ocean_data
+      POSTGRES_USER: floatchat_user
+      POSTGRES_PASSWORD: floatchat_secure_password_2024
+      POSTGRES_HOST_AUTH_METHOD: md5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database_scripts:/docker-entrypoint-initdb.d
+      - ./Copy of ARGO_Data(1).xlsx:/app/data/ARGO_Data.xlsx:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - floatchat-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U floatchat_user -d floatchat_ocean_data"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # FloatChat Python Backend API
+  floatchat-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: floatchat-backend
+    restart: unless-stopped
+    depends_on:
+      floatchat-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://floatchat_user:floatchat_secure_password_2024@floatchat-db:5432/floatchat_ocean_data
+      - FLASK_ENV=production
+      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY}
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    ports:
+      - "5000:5000"
+    networks:
+      - floatchat-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: ["python", "api_server.py"]
+
+  # Redis Cache (Optional - for query caching)
+  floatchat-cache:
+    image: redis:7-alpine
+    container_name: floatchat-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - floatchat-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Reverse Proxy (Optional - for production)
+  floatchat-proxy:
+    image: nginx:alpine
+    container_name: floatchat-nginx
+    restart: unless-stopped
+    depends_on:
+      - floatchat-api
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - floatchat-network
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+    name: floatchat_postgres_data
+  redis_data:
+    driver: local
+    name: floatchat_redis_data
+
+# Custom network for service communication
+networks:
+  floatchat-network:
+    driver: bridge
+    name: floatchat-network
