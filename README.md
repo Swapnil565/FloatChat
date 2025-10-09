@@ -79,12 +79,13 @@ graph TD
     H --> A;
 
     subgraph Database
-        TSDB[Unified Ocean Data Store <br> (PostgreSQL + TimescaleDB)];
-        CD[Climatology Database <br> (World Ocean Atlas)];
+        TSDB[Unified Ocean Data Store\n(PostgreSQL + TimescaleDB)]
+        CD[Climatology Database\n(World Ocean Atlas)]
     end
 
     E --> TSDB;
     F --> CD;
+
 🧰 Technology Stack
 Component	Technology
 Backend	Python, FastAPI, asyncio
