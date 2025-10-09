@@ -56,35 +56,36 @@ Powered by:
 
 ```mermaid
 graph TD
-    A[User Query via Streamlit UI] --> B{Conversational Ambiguity Resolver};
-    B -- Clarified Query --> C[Multi-Agent Orchestrator];
-    C --> D1[Stage 1: Parallel Context Building];
+    A[User Query via Streamlit UI] --> B{Ambiguity Resolver}
+    B --> C[Multi-Agent Orchestrator]
+    C --> D1[Stage 1: Context Building]
     subgraph D1
         R[Retrieval Agent]
         S[Specialist Agent]
         V[Validator Agent]
     end
-    D1 --> D2[Stage 2: Merge into UnifiedContext];
-    D2 --> D3[Stage 3: Parallel Analysis];
+    D1 --> D2[Stage 2: Merge Context]
+    D2 --> D3[Stage 3: SQL Generation]
     subgraph D3
-        S1[Specialist 1: Gen SQL]
-        S2[Specialist 2: Gen SQL]
-        S3[Specialist 3: Gen SQL]
+        S1[SQL Specialist 1]
+        S2[SQL Specialist 2]
+        S3[SQL Specialist 3]
     end
-    D3 --> D4{Stage 4: Bayesian Consensus Engine};
-    D4 -- Winning SQL AST --> E[SQL Executor];
-    E -- Raw Data --> F[Physics-Constrained Validator];
-    F -- Validated Data --> G[Visualization Decision Engine];
-    G --> H[Final Response: Text, Plots, Metadata];
-    H --> A;
+    D3 --> D4{Stage 4: Consensus Engine}
+    D4 --> E[SQL Executor]
+    E --> F[Physics Validator]
+    F --> G[Visualization Engine]
+    G --> H[Final Response]
+    H --> A
 
     subgraph Database
-        TSDB[Unified Ocean Data Store\n(PostgreSQL + TimescaleDB)]
-        CD[Climatology Database\n(World Ocean Atlas)]
+        TSDB[Ocean Data Store]
+        CD[Climatology Data]
     end
 
-    E --> TSDB;
-    F --> CD;
+    E --> TSDB
+    F --> CD
+
 
 🧰 Technology Stack
 Component	Technology
