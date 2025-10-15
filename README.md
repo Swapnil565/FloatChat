@@ -15,12 +15,28 @@
 
 ## 🧠 FloatChat in Action
 
+### 🎣 Fishing Zone Recommendations
 <div align="center">
-  <img src="./assets/screenshots/demo-temperature-trends.png" alt="FloatChat Demo" width="800"/>
+  <img src="./assets/screenshots/demo-fishing-zones.png" alt="Kerala Fishing Zone Analysis" width="800"/>
+  <p><i>Real-time fishing zone recommendations with safety advisories</i></p>
+</div>
+
+**What You're Seeing:**
+- **Location-Based Query** → "Where should I fish for pomfret today near Kerala coast?"
+- **Smart Recommendations** → 50km off Kochi with ideal water temperature (26°C)
+- **Safety Advisories** → Anomaly detection warns about unsafe zones
+- **Confidence Scoring** → 85% confidence with calm seas recommendation
+- **Actionable Insights** → Specific coordinates and conditions for optimal catch
+
+---
+
+### 🌡️ Temperature Trend Analysis
+<div align="center">
+  <img src="./assets/screenshots/demo-temperature-trends.png" alt="Indian Ocean Temperature Analysis" width="800"/>
   <p><i>Analyzing Indian Ocean temperature trends with validated, physics-constrained AI</i></p>
 </div>
 
-### What You're Seeing:
+**What You're Seeing:**
 - **Natural Language Query** → Complex oceanographic question in plain English
 - **Validated Analysis** → Data cross-checked against World Ocean Atlas baselines
 - **Anomaly Detection** → Bay of Bengal warming spike (+1.5°C) linked to El Niño patterns  
