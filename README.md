@@ -13,16 +13,39 @@
 
 ---
 
-## 🧠 Imagine This
-Ask:
-> "Show me temperature anomalies west of the Andaman Islands for last month."
+## 🧠 FloatChat in Action
 
-Get:
-- A **validated, multi-layered ocean analysis**
-- Interactive charts, metadata, and explanations — all **within seconds**  
+### 🌡️ Temperature Trend Analysis
+<div align="center">
+  <img src="./assets/screenshots/demo-temperature-trends.png" alt="Indian Ocean Temperature Analysis" width="900"/>
+  <p><i>Analyzing Indian Ocean temperature trends with validated, physics-constrained AI</i></p>
+</div>
 
-<!-- Optional: Add a GIF demo -->
-<!-- ![Demo](https://user-images.githubusercontent.com/placeholder.gif) -->
+**What You're Seeing:**
+- **Natural Language Query** → "What are the temperature trends in the Indian Ocean over the last year?"
+- **Validated Analysis** → Data cross-checked against World Ocean Atlas baselines
+- **Anomaly Detection** → Bay of Bengal warming spike (+1.5°C) linked to El Niño patterns  
+- **Interactive Visualizations** → Plotly charts showing observed vs. baseline temperatures
+- **Confidence Scoring** → 95% confidence backed by multi-agent consensus
+
+**Response time: < 3 seconds** from question to full analysis.
+
+---
+
+### 🎣 Fishing Zone Recommendations
+<div align="center">
+  <img src="./assets/screenshots/demo-fishing-zones.png" alt="Kerala Fishing Zone Analysis" width="900"/>
+  <p><i>Real-time fishing zone recommendations with safety advisories</i></p>
+</div>
+
+**What You're Seeing:**
+- **Location-Based Query** → "Where should I fish for pomfret today near Kerala coast?"
+- **Smart Recommendations** → 50km off Kochi with ideal water temperature (26°C)
+- **Safety Advisories** → Anomaly detection warns about unsafe zones in northern areas
+- **Confidence Scoring** → 85% confidence with calm seas recommendation
+- **Actionable Insights** → Specific coordinates and conditions for optimal catch
+
+**Real-world application:** Helping fishermen make data-driven decisions for safety and productivity.
 
 ---
 
