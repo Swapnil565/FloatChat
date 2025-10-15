@@ -55,40 +55,85 @@ Powered by:
 ## 🧱 System Architecture
 
 ```mermaid
-graph TD
-    A[User Query via Streamlit UI] --> B{Ambiguity Resolver}
-    B --> C[Multi-Agent Orchestrator]
-    C --> D1[Stage 1: Context Building]
-    
-    subgraph "Context Building"
-        R[Retrieval Agent]
-        S[Specialist Agent]
-        V[Validator Agent]
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#e6f3ff','primaryTextColor':'#000','primaryBorderColor':'#7c7c7c','lineColor':'#7c7c7c','secondaryColor':'#fff4e6','tertiaryColor':'#f0f0f0'}}}%%
+graph TB
+    subgraph FRONTEND["🎨 FRONTEND LAYER"]
+        UI[Streamlit UI<br/>User Interface]
+        AR[Ambiguity Resolver<br/>Query Preprocessing]
+        VIZ[Visualization Engine<br/>Plotly Charts]
     end
     
-    D1 --> D2[Stage 2: Merge Context]
-    D2 --> D3[Stage 3: SQL Generation]
+    UI --> AR
+    AR --> |HTTP/API Calls| ORCH
+    VIZ --> UI
     
-    subgraph "SQL Generation"
-        S1[SQL Specialist 1]
-        S2[SQL Specialist 2]
-        S3[SQL Specialist 3]
+    subgraph BACKEND["⚙️ BACKEND / APPLICATION LAYER"]
+        ORCH[Multi-Agent Orchestrator<br/>Request Router]
+        AUTH[Query Validator<br/>Security Layer]
     end
     
-    D3 --> D4{Stage 4: Consensus Engine}
-    D4 --> E[SQL Executor]
-    E --> F[Physics Validator]
-    F --> G[Visualization Engine]
-    G --> H[Final Response]
-    H --> A
-
-    subgraph "Database Layer"
-        TSDB[Ocean Data Store]
-        CD[Climatology Data]
+    ORCH --> AUTH
+    AUTH --> |Internal Service<br/>Communication| AICORE
+    
+    subgraph AICORE["🧠 AI / ML CORE (Intelligence Layer)"]
+        subgraph CONTEXT["Context Building Stage"]
+            RET[Retrieval Agent<br/>Historical Context]
+            SPEC[Specialist Agent<br/>Domain Knowledge]
+            VAL[Validator Agent<br/>Constraint Checking]
+        end
+        
+        subgraph SQLGEN["SQL Generation Stage"]
+            SQL1[SQL Specialist 1<br/>Template-Based]
+            SQL2[SQL Specialist 2<br/>GPT-4 Powered]
+            SQL3[SQL Specialist 3<br/>Hybrid Approach]
+        end
+        
+        CONS{Bayesian Consensus<br/>Engine}
+        EXEC[SQL Executor<br/>Query Runner]
+        PHYS[Physics Validator<br/>Climatology Check]
     end
-
-    E --> TSDB
-    F --> CD
+    
+    CONTEXT --> CONS
+    CONS --> SQLGEN
+    SQLGEN --> EXEC
+    EXEC --> PHYS
+    PHYS --> |Results| VIZ
+    
+    subgraph DATABASE["💾 DATA & STORAGE LAYER"]
+        TSDB[(TimescaleDB<br/>Ocean Time-Series<br/>NetCDF Data)]
+        CLIM[(Climatology DB<br/>World Ocean Atlas<br/>Reference Data)]
+        CACHE[(Vector DB<br/>Pinecone/FAISS<br/>Embeddings)]
+    end
+    
+    EXEC --> TSDB
+    PHYS --> CLIM
+    RET --> CACHE
+    
+    style FRONTEND fill:#fff9e6,stroke:#333,stroke-width:3px
+    style BACKEND fill:#e6f3ff,stroke:#333,stroke-width:3px
+    style AICORE fill:#fff4e6,stroke:#333,stroke-width:3px
+    style DATABASE fill:#f0f0f0,stroke:#333,stroke-width:3px
+    
+    style UI fill:#d4e9ff,stroke:#666,stroke-width:2px
+    style AR fill:#d4e9ff,stroke:#666,stroke-width:2px
+    style VIZ fill:#d4e9ff,stroke:#666,stroke-width:2px
+    
+    style ORCH fill:#d4e9ff,stroke:#666,stroke-width:2px
+    style AUTH fill:#d4e9ff,stroke:#666,stroke-width:2px
+    
+    style RET fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style SPEC fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style VAL fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style SQL1 fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style SQL2 fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style SQL3 fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style CONS fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style EXEC fill:#ffe4d4,stroke:#666,stroke-width:2px
+    style PHYS fill:#ffe4d4,stroke:#666,stroke-width:2px
+    
+    style TSDB fill:#d4d4ff,stroke:#666,stroke-width:2px
+    style CLIM fill:#d4d4ff,stroke:#666,stroke-width:2px
+    style CACHE fill:#d4d4ff,stroke:#666,stroke-width:2px
 ```
 
 ---
